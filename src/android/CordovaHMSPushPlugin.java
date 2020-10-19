@@ -1,5 +1,6 @@
 package com.huawei.cordovahmspushplugin;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -18,12 +19,18 @@ import static com.huawei.cordovahmspushplugin.Constants.TAG;
  * and extends CordovaPlugin class to serve functionality
  * to JS layer.
  *
- * @author Onur Kenis
+ * @author Onur Kenis, Madusha Lakruwan
  */
 public class CordovaHMSPushPlugin extends CordovaPlugin {
 
     // Notification data as JSON string
     static String notificationData = DEFAULT_INTENT_DATA;
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        PushUtils.setIntentData(intent.getExtras());
+    }
 
     /**
      * Executes the request.
@@ -57,8 +64,8 @@ public class CordovaHMSPushPlugin extends CordovaPlugin {
         Log.i(TAG, "get token: begin");
 
         try {
-            String appId = AGConnectServicesConfig.fromContext(cordova.getContext()).getString("client/app_id");
-            String pushToken = HmsInstanceId.getInstance(cordova.getContext()).getToken(appId, "HCM");
+            String appId = AGConnectServicesConfig.fromContext(cordova.getActivity().getApplicationContext()).getString("client/app_id");
+            String pushToken = HmsInstanceId.getInstance(cordova.getActivity().getApplicationContext()).getToken(appId, "HCM");
             if (!TextUtils.isEmpty(pushToken)) {
                 Log.i(TAG, "get token:" + pushToken);
                 callbackContext.success(pushToken);
