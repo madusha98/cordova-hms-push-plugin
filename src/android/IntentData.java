@@ -10,9 +10,7 @@ import android.os.Bundle;
 class IntentData {
 
     private boolean isNotification;
-    private String title;
-    private String body;
-    private String image;
+    private String data;
 
     IntentData(Bundle extras) {
 
@@ -20,9 +18,7 @@ class IntentData {
             this.isNotification = Boolean
                 .parseBoolean(extras.getString("isNotification", "false"));
 
-            this.title = extras.getString(Constants.TITLE);
-            this.body = extras.getString(Constants.BODY);
-            this.image = extras.getString(Constants.IMAGE);
+            this.data = extras.getString("notificationData");
         }
 
     }
@@ -35,27 +31,11 @@ class IntentData {
         this.isNotification = notification;
     }
 
-    String getTitle() {
-        return title;
+    String getData() {
+        return data;
     }
 
-    void setTitle(String title) {
-        this.title = title;
-    }
-
-    String getBody() {
-        return body;
-    }
-
-    void setBody(String body) {
-        this.body = body;
-    }
-
-    String getImage() {
-        return image;
-    }
-
-    void setImage(String image) {
-        this.image = image;
+    void setData(String data) {
+        this.data = data;
     }
 }
